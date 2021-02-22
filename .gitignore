@@ -1,8 +1,12 @@
 .DS_Store
 client/node_modules
 client/dist
-backend/bin
-backend/obj
+gateapi/bin
+gateapi/obj
+account/bin
+account/obj
+account.data/bin
+account.data/obj
 
 # local env files
 .env.local

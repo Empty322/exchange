@@ -9,5 +9,5 @@ module.exports = {
             }
         }
     },
-    outputDir: '../backend/wwwroot'
+    outputDir: '../gateapi/wwwroot'
 }
