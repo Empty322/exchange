@@ -3,10 +3,10 @@ client/node_modules
 client/dist
 gateapi/bin
 gateapi/obj
-account/bin
-account/obj
-account.data/bin
-account.data/obj
+IdentityServer/bin
+IdentityServer/obj
+IdentityServer.Data/bin
+IdentityServer.Data/obj
 
 # local env files
 .env.local
