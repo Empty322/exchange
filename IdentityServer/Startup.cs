@@ -3,6 +3,7 @@ using IdentityServer.Data;
 using IdentityServer.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,9 +30,21 @@ namespace IdentityServer
                 .AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<UsersContext>();
 
+            services.AddCors(setup =>
+                {
+                    setup.AddDefaultPolicy(policy =>
+                    {
+                        policy.AllowAnyHeader();
+                        policy.AllowAnyMethod();
+                        policy.WithOrigins("https://localhost:44357", "https://localhost:44357/");
+                        policy.AllowCredentials();
+                    });
+                });
+
             services.AddIdentityServer(config =>
                 {
                     config.UserInteraction.LoginUrl = "https://localhost:44357/login";
+                    config.UserInteraction.ErrorUrl = "/auth/error";
                 })
                 .AddAspNetIdentity<User>()
                 .AddInMemoryIdentityResources(ConfigurationIS4.GetIdentityResources())
@@ -50,8 +63,8 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-            
+            app.UseCors();
+
             app.UseRouting();
 
             app.UseIdentityServer();

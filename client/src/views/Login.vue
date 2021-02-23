@@ -6,11 +6,11 @@
               <span class="card-title">Войти</span>
               <div class="input-field">
                 <input
-                    id="email"
+                    id="userName"
                     type="text"
-                    v-model.trim="email"
+                    v-model.trim="userName"
                 >
-                <label for="email">Email</label>
+                <label for="userName">Имя пользователя</label>
               </div>
               <div class="input-field">
                 <input
@@ -45,7 +45,7 @@
 <script>
 export default {
   data: () => ({
-    email: '',
+    userName: '',
     password: ''
   }),
   methods: {
@@ -53,11 +53,20 @@ export default {
       const formData = {
         email: this.email,
         password: this.password,
-        returnUrl: 'https://localhost:44357/'
+        returnUrl: this.$route.query.ReturnUrl
       }
       try {
         await this.$store.dispatch('login', formData)
-        this.$router.push('/')
+          .then((response) => {
+            if (response.data.isOk){
+              window.location.href = response.data.redirectUrl;
+            }
+            else
+              console.log(response)
+          })
+          .catch((error) => {
+              console.log(error);
+          });
       } catch (e) {
         console.log(e)
       }

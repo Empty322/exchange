@@ -7,12 +7,10 @@ const settings = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     authority: STS_DOMAIN,
     client_id: 'vuejs_code_client',
-    redirect_uri: 'https://localhost:44357/callback.html',
-    automaticSilentRenew: true,
-    silent_redirect_uri: 'https://localhost:44357/silent-renew.html',
+    redirect_uri: 'https://localhost:44357/login',
     response_type: 'code',
-    scope: 'openid profile',
-    post_logout_redirect_uri: 'https://localhost:44357/',
+    scope: 'openid profile email',
+    post_logout_redirect_uri: 'https://localhost:44357',
     filterProtocolClaims: true,
 }
 
@@ -22,17 +20,19 @@ export default {
     
     actions: {
         async getUser() {
-            return userManager.getUser();
+            return await userManager.getUser();
+        },
+        async letsLogin() {
+            return await userManager.signinRedirect();
         },
         async login({ dispatch }, formData) {
             dispatch
-            axios.post('https://localhost:5001/auth/login', formData)
-                    .then((response) => {
-                        console.log(response)
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+            formData = {
+                UserName: "Empty",
+                Password: "Vbrhjcthdbc98@",
+                ReturnUrl: formData.returnUrl
+            }
+            return axios.post('https://localhost:5001/auth/login', formData)
         },
         async logout() {
             return userManager.signoutRedirect();

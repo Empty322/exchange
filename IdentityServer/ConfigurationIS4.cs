@@ -25,24 +25,15 @@ namespace IdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44357",
-                        "https://localhost:44357/callback.html",
-                        "https://localhost:44357/silent-renew.html"
+                        "https://localhost:44357/login",
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44357/",
-                        "https://localhost:44357"
-                    },
-                    AllowedCorsOrigins = new List<string>
-                    {
-                        "https://localhost:44357/",
                         "https://localhost:44357"
                     },
                     AllowedScopes = new List<string>
                     {
                         "openid",
-                        "role",
                         "profile",
                         "email"
                     }
@@ -59,7 +50,8 @@ namespace IdentityServer
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
         public static IEnumerable<ApiScope> GetApiScopes() =>

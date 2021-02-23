@@ -2,7 +2,7 @@
     <div>
         <div class="home">
             <p v-if="isLoggedIn">User: {{ currentUser }}</p>
-            <router-link to="/login" class="btn" @click="login" v-if="!isLoggedIn">Login</router-link>
+            <button class="btn" @click="login" v-if="!isLoggedIn">Login</button>
             <button class="btn" @click="logout" v-if="isLoggedIn">Logout</button>
             <button class="btn" @click="getProtectedApiData" v-if="isLoggedIn">Get API data</button>
         </div>
@@ -32,6 +32,9 @@ export default {
         });
     },
     methods: {
+        async login() {
+            await this.$store.dispatch('letsLogin');
+        },
         async logout() {
             await this.$store.dispatch('logout');
         },
