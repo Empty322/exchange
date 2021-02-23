@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Security.Claims;
 using IdentityServer.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ namespace IdentityServer.Data
 {
     public class DatabaseInitializer
     {
-        public static void Init(IServiceProvider serviceProvider)
+        public static async Task Init(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
@@ -21,16 +22,16 @@ namespace IdentityServer.Data
                 UserName = "Empty"
             };
 
-            var result = userManager.CreateAsync(user, "Vbrhjcthdbc98@").GetAwaiter().GetResult();
+            var result = await userManager.CreateAsync(user, "Vbrhjcthdbc98@");
             if (result.Succeeded)
             {
-                userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Administrator")).GetAwaiter().GetResult();
+                await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Administrator"));
             }
 
-            var result2 = userManager.CreateAsync(user2, "Vbrhjcthdbc98@").GetAwaiter().GetResult();
+            var result2 = await userManager.CreateAsync(user2, "Vbrhjcthdbc98@");
             if (result2.Succeeded)
             {
-                userManager.AddClaimAsync(user2, new Claim(ClaimTypes.Role, "Administrator")).GetAwaiter().GetResult();
+                await userManager.AddClaimAsync(user2, new Claim(ClaimTypes.Role, "Administrator"));
             }
 
         }

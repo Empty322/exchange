@@ -7,6 +7,8 @@ IdentityServer/bin
 IdentityServer/obj
 IdentityServer.Data/bin
 IdentityServer.Data/obj
+testApi/bin
+testApi/obj
 
 # local env files
 .env.local

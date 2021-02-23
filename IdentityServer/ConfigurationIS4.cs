@@ -19,27 +19,13 @@ namespace IdentityServer
                     {
                         "OrdersAPI" 
                     }
-                },
-                new()
-                {
-                    ClientId = "client_id_mvc",
-                    ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,
-                    AllowedScopes =
-                    {
-                        "OrdersAPI",
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                    },
-                    RedirectUris = {"https://localhost:2001/signin-oidc"},
-                    RequireConsent = false
                 }
             };
 
         public static IEnumerable<ApiResource> GetApiResources() =>
             new List<ApiResource>
             {
-                new ApiResource("OrdersAPI")
+                new ApiResource("TestAPI")
             };
 
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
@@ -52,7 +38,7 @@ namespace IdentityServer
         public static IEnumerable<ApiScope> GetApiScopes() =>
             new List<ApiScope>
             {
-                new ApiScope("OrdersAPI")
+                new ApiScope("TestAPI")
             };
     }
 }
