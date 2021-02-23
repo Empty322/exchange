@@ -9,5 +9,4 @@ module.exports = {
             }
         }
     },
-    outputDir: '../gateapi/wwwroot'
 }
