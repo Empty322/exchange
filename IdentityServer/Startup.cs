@@ -29,10 +29,9 @@ namespace IdentityServer
                 .AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<UsersContext>();
 
-
             services.AddIdentityServer(config =>
                 {
-                    config.UserInteraction.LoginUrl = "Auth/Login";
+                    config.UserInteraction.LoginUrl = "https://localhost:44357/login";
                 })
                 .AddAspNetIdentity<User>()
                 .AddInMemoryIdentityResources(ConfigurationIS4.GetIdentityResources())
@@ -51,6 +50,8 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+            
             app.UseRouting();
 
             app.UseIdentityServer();

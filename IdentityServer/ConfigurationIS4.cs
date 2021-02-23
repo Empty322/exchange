@@ -10,14 +10,41 @@ namespace IdentityServer
         public static IEnumerable<Client> GetClients() =>
             new List<Client>()
             {
-                new()
-                {
-                    ClientId = "client_vue",
-                    ClientSecrets = { new Secret("client_secret".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes =
+                new Client {
+                    ClientName = "vuejs_code_client",
+                    ClientId = "vuejs_code_client",
+                    AccessTokenType = AccessTokenType.Reference,
+                    RequireConsent = false,
+                    AccessTokenLifetime = 330,// 330 seconds, default 60 minutes
+                    IdentityTokenLifetime = 300,
+
+                    RequireClientSecret = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = new List<string>
                     {
-                        "OrdersAPI" 
+                        "https://localhost:44357",
+                        "https://localhost:44357/callback.html",
+                        "https://localhost:44357/silent-renew.html"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "https://localhost:44357/",
+                        "https://localhost:44357"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "https://localhost:44357/",
+                        "https://localhost:44357"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "role",
+                        "profile",
+                        "email"
                     }
                 }
             };
