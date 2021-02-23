@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Controllers
 {
-    public class AuthController : Controller
+
+    [ApiController]
+    [Route("[controller]")]
+    public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -19,7 +22,8 @@ namespace IdentityServer.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [Route("[action]")]
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -36,10 +40,10 @@ namespace IdentityServer.Controllers
 
             if (signInResult.Succeeded)
             {
-                return Json(new { Accept = "true" });
+                return Ok(new { Accept = "true" });
             }
 
-            return Json(new { Accept = "false" });
+            return Ok(new { Accept = "false" });
         }
     }
 }
