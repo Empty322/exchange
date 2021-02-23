@@ -52,7 +52,8 @@ export default {
     submitHandler: async function () {
       const formData = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        returnUrl: 'https://localhost:44357/'
       }
       try {
         await this.$store.dispatch('login', formData)
