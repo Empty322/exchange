@@ -7,7 +7,7 @@ const settings = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     authority: STS_DOMAIN,
     client_id: 'vuejs_code_client',
-    redirect_uri: 'https://localhost:44357/login',
+    redirect_uri: 'https://localhost:44357/callback',
     response_type: 'code',
     scope: 'openid profile email',
     post_logout_redirect_uri: 'https://localhost:44357',
@@ -15,7 +15,6 @@ const settings = {
 }
 
 let userManager = new UserManager(settings)
-
 export default {
     
     actions: {
@@ -34,9 +33,7 @@ export default {
             }
             await axios.post('https://localhost:5001/auth/login', formData, { withCredentials: true }).then(async (response) => {
                 if (response.data.isOk) {
-                    await axios.get(response.data.redirectUrl, { withCredentials: true }).then((data) => {
-                        console.log(data);
-                    }).catch((err) => console.log(err));
+                    window.location.href = response.data.redirectUrl
                 }
                 else
                   console.log(response)
@@ -44,6 +41,14 @@ export default {
               .catch((error) => {
                   console.log(error);
               });
+        },
+        async signInCallback() {
+            userManager.signinRedirectCallback().then(function (data) {
+                console.log(data);
+                window.location.href = "/";
+            }).catch(function(e) {
+                console.error(e);
+            });
         },
         async logout() {
             return await userManager.signoutRedirect();

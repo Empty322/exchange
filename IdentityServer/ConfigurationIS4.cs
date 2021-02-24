@@ -22,18 +22,18 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
 
-                    AllowedCorsOrigins = new List<string>{
-                        "https://localhost:44357"
-                    },
-
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44357/login",
+                        "https://localhost:44357/callback",
                         "https://localhost:44357"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
+                        "https://localhost:44357",
+                    },
+                    AllowedCorsOrigins = new List<string>{
                         "https://localhost:44357"
                     },
                     AllowedScopes = new List<string>

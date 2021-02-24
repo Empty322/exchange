@@ -1,14 +1,15 @@
 <template>
-    <div>
-        <div class="home">
+    <div class="container">
+        <div class="card" style="padding: 2rem">
             <p v-if="isLoggedIn">User: {{ currentUser }}</p>
-            <button class="btn" @click="login" v-if="!isLoggedIn">Login</button>
-            <button class="btn" @click="logout" v-if="isLoggedIn">Logout</button>
-            <button class="btn" @click="getProtectedApiData" v-if="isLoggedIn">Get API data</button>
-        </div>
- 
-        <div>
+            <div class="row">
+                <button class="btn" @click="login" v-if="!isLoggedIn">Login</button>
+                <button class="btn" @click="logout" v-if="isLoggedIn">Logout</button>
+                <button class="btn" @click="getPrivate" v-if="isLoggedIn">getPublic</button>
+                <button class="btn" @click="getPrivate" v-if="isLoggedIn">getPrivate</button>
+            </div>
             {{message}}
+
         </div>
     </div>
 </template>
@@ -24,7 +25,6 @@ export default {
         accessTokenExpired: false
     }),
     async mounted() {
-        await this.$store.dispatch('getAccessToken')
         await this.$store.dispatch('getUser').then((user) => {
             this.currentUser = user.profile.name;
             this.accessTokenExpired = user.expired;
@@ -39,8 +39,20 @@ export default {
         async logout() {
             await this.$store.dispatch('logout');
         },
-        getPublic() {
-
+        async getPublic() {
+            const authorizationHeader = 'Authorization';
+            await this.$store.dispatch('getAccessToken').then((userToken) => {
+                axios.defaults.headers.common[authorizationHeader] = `Bearer ${userToken}`;
+ 
+                axios.get('https://localhost:44355/test/public-data/')
+                    .then((response) => {
+                        console.log(response)
+                        this.message = response.data;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            });
         },
         async getPrivate() {
             const authorizationHeader = 'Authorization';
@@ -60,3 +72,4 @@ export default {
     }
 }
 </script>
+

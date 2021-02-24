@@ -63,9 +63,9 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors();
-
             app.UseRouting();
+            
+            app.UseCors();
 
             app.UseIdentityServer();
 
