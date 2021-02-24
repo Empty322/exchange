@@ -57,16 +57,6 @@ export default {
       }
       try {
         await this.$store.dispatch('login', formData)
-          .then((response) => {
-            if (response.data.isOk){
-              window.location.href = response.data.redirectUrl;
-            }
-            else
-              console.log(response)
-          })
-          .catch((error) => {
-              console.log(error);
-          });
       } catch (e) {
         console.log(e)
       }

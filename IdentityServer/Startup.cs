@@ -30,9 +30,9 @@ namespace IdentityServer
                 .AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<UsersContext>();
 
-            services.AddCors(setup =>
+            services.AddCors(options =>
                 {
-                    setup.AddDefaultPolicy(policy =>
+                    options.AddDefaultPolicy(policy =>
                     {
                         policy.AllowAnyHeader();
                         policy.AllowAnyMethod();

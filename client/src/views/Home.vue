@@ -24,6 +24,7 @@ export default {
         accessTokenExpired: false
     }),
     async mounted() {
+        await this.$store.dispatch('getAccessToken')
         await this.$store.dispatch('getUser').then((user) => {
             this.currentUser = user.profile.name;
             this.accessTokenExpired = user.expired;

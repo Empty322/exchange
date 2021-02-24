@@ -32,13 +32,24 @@ export default {
                 Password: "Vbrhjcthdbc98@",
                 ReturnUrl: formData.returnUrl
             }
-            return axios.post('https://localhost:5001/auth/login', formData)
+            await axios.post('https://localhost:5001/auth/login', formData, { withCredentials: true }).then(async (response) => {
+                if (response.data.isOk) {
+                    await axios.get(response.data.redirectUrl, { withCredentials: true }).then((data) => {
+                        console.log(data);
+                    }).catch((err) => console.log(err));
+                }
+                else
+                  console.log(response)
+              })
+              .catch((error) => {
+                  console.log(error);
+              });
         },
         async logout() {
-            return userManager.signoutRedirect();
+            return await userManager.signoutRedirect();
         },
         async getAccessToken() {
-            return userManager.getUser().then((data) => {
+            return await userManager.getUser().then((data) => {
                 return data.access_token
             })
         }
