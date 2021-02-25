@@ -36,7 +36,7 @@ namespace IdentityServer
                     {
                         policy.AllowAnyHeader();
                         policy.AllowAnyMethod();
-                        policy.WithOrigins("https://localhost:44357", "https://localhost:44357/");
+                        policy.WithOrigins("https://localhost:44357");
                         policy.AllowCredentials();
                     });
                 });

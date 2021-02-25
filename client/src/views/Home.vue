@@ -26,15 +26,16 @@ export default {
     }),
     async mounted() {
         await this.$store.dispatch('getUser').then((user) => {
-            this.currentUser = user.profile.name;
-            this.accessTokenExpired = user.expired;
-
-            this.isLoggedIn = (user !== null && !user.expired);
+            if (user) {
+                this.currentUser = user.profile.name;
+                this.accessTokenExpired = user.expired;
+                this.isLoggedIn = (user !== null && !user.expired);
+            }
         });
     },
     methods: {
         async login() {
-            await this.$store.dispatch('letsLogin');
+            await this.$store.dispatch('signinRedirect');
         },
         async logout() {
             await this.$store.dispatch('logout');
@@ -44,7 +45,7 @@ export default {
             await this.$store.dispatch('getAccessToken').then((userToken) => {
                 axios.defaults.headers.common[authorizationHeader] = `Bearer ${userToken}`;
  
-                axios.get('https://localhost:44355/test/public-data/')
+                axios.get('https://localhost:6001/test/public-data/')
                     .then((response) => {
                         console.log(response)
                         this.message = response.data;
@@ -59,7 +60,7 @@ export default {
             await this.$store.dispatch('getAccessToken').then((userToken) => {
                 axios.defaults.headers.common[authorizationHeader] = `Bearer ${userToken}`;
  
-                axios.get('https://localhost:44355/test/private-data/')
+                axios.get('https://localhost:6001/test/private-data/')
                     .then((response) => {
                         console.log(response)
                         this.message = response.data;

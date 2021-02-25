@@ -27,6 +27,17 @@ namespace testApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+                {
+                    options.AddDefaultPolicy(policy =>
+                    {
+                        policy.AllowAnyHeader();
+                        policy.AllowAnyMethod();
+                        policy.WithOrigins("https://localhost:44357");
+                        policy.AllowCredentials();
+                    });
+                });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config => 
                 {
@@ -49,6 +60,8 @@ namespace testApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "testApi v1"));
             }
+
+            app.UseCors();
 
             app.UseRouting();
 

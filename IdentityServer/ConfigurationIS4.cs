@@ -40,7 +40,8 @@ namespace IdentityServer
                     {
                         "openid",
                         "profile",
-                        "email"
+                        "email",
+                        "TestAPI"
                     }
                 }
             };

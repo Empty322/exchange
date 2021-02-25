@@ -44,7 +44,6 @@
 
 <script>
 export default {
-  
   data: () => ({
     userName: '',
     password: ''
@@ -52,7 +51,7 @@ export default {
   methods: {
     submitHandler: async function () {
       const formData = {
-        email: this.email,
+        userName: this.userName,
         password: this.password,
         returnUrl: this.$route.query.ReturnUrl
       }

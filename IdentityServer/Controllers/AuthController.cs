@@ -40,7 +40,6 @@ namespace IdentityServer.Controllers
                 return BadRequest();
             }
 
-
             var user = await userManager.FindByNameAsync(model.UserName);
             if (user == null)
             {

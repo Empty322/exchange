@@ -2,35 +2,28 @@ import { UserManager, WebStorageStateStore } from 'oidc-client'
 import axios from 'axios'
 
 const STS_DOMAIN = 'https://localhost:5001'
-
 const settings = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     authority: STS_DOMAIN,
     client_id: 'vuejs_code_client',
     redirect_uri: 'https://localhost:44357/callback',
     response_type: 'code',
-    scope: 'openid profile email',
+    scope: 'openid profile email TestAPI',
     post_logout_redirect_uri: 'https://localhost:44357',
     filterProtocolClaims: true,
 }
 
 let userManager = new UserManager(settings)
+
 export default {
-    
     actions: {
         async getUser() {
             return await userManager.getUser();
         },
-        async letsLogin() {
+        async signinRedirect() {
             return await userManager.signinRedirect();
         },
-        async login({ dispatch }, formData) {
-            dispatch
-            formData = {
-                UserName: "Empty",
-                Password: "Vbrhjcthdbc98@",
-                ReturnUrl: formData.returnUrl
-            }
+        async login({ }, formData) {
             await axios.post('https://localhost:5001/auth/login', formData, { withCredentials: true }).then(async (response) => {
                 if (response.data.isOk) {
                     window.location.href = response.data.redirectUrl
