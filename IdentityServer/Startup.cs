@@ -32,11 +32,11 @@ namespace IdentityServer
 
             services.AddCors(options =>
                 {
-                    options.AddDefaultPolicy(policy =>
+                    options.AddPolicy("user", policy =>
                     {
+                        policy.WithOrigins("https://localhost:44357");
                         policy.AllowAnyHeader();
                         policy.AllowAnyMethod();
-                        policy.WithOrigins("https://localhost:44357");
                         policy.AllowCredentials();
                     });
                 });
@@ -45,6 +45,7 @@ namespace IdentityServer
                 {
                     config.UserInteraction.LoginUrl = "https://localhost:44357/login";
                     config.UserInteraction.ErrorUrl = "/auth/error";
+                    config.UserInteraction.LogoutUrl = "/auth/logout";
                 })
                 .AddAspNetIdentity<User>()
                 .AddInMemoryIdentityResources(ConfigurationIS4.GetIdentityResources())
@@ -65,8 +66,6 @@ namespace IdentityServer
 
             app.UseRouting();
             
-            app.UseCors();
-
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>

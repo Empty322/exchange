@@ -3,6 +3,7 @@ using IdentityServer.Data.Models;
 using IdentityServer.ViewModels;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,7 @@ namespace IdentityServer.Controllers
 
 
         [HttpPost]
+        [EnableCors("user")]
         [Route("[action]")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
@@ -54,34 +56,16 @@ namespace IdentityServer.Controllers
             return Unauthorized();
         }
 
-        [HttpGet]
+        [EnableCors("user")]
         [Route("[action]")]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            var context = await interaction.GetLogoutContextAsync(logoutId);
-            bool showSignoutPrompt = true;
-
-            if (context?.ShowSignoutPrompt == false)
-            {
-                // it's safe to automatically sign-out
-                showSignoutPrompt = false;
+            await signInManager.SignOutAsync();
+            var logoutResult = await interaction.GetLogoutContextAsync(logoutId);
+            if (!string.IsNullOrEmpty(logoutResult.PostLogoutRedirectUri)) {
+                return Redirect(logoutResult.PostLogoutRedirectUri);
             }
-
-            if (User?.Identity.IsAuthenticated == true)
-            {
-                // delete local authentication cookie
-                await HttpContext.SignOutAsync();
-            }
-
-            // no external signout supported for now (see \Quickstart\Account\AccountController.cs TriggerExternalSignout)
-            return Ok(new
-            {
-                showSignoutPrompt,
-                ClientName = string.IsNullOrEmpty(context?.ClientName) ? context?.ClientId : context?.ClientName,
-                context?.PostLogoutRedirectUri,
-                context?.SignOutIFrameUrl,
-                logoutId
-            });
+            return Ok();
         }
 
         [HttpGet]

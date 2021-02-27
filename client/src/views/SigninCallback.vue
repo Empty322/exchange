@@ -1,6 +1,6 @@
 <template>
   <div>
-    Callback page
+    SigninCallback page
   </div>
 </template>
 

@@ -31,10 +31,9 @@ namespace testApi
                 {
                     options.AddDefaultPolicy(policy =>
                     {
+                        policy.WithOrigins("https://localhost:44357");
                         policy.AllowAnyHeader();
                         policy.AllowAnyMethod();
-                        policy.WithOrigins("https://localhost:44357");
-                        policy.AllowCredentials();
                     });
                 });
 

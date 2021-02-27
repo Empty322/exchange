@@ -5,11 +5,10 @@
             <div class="row">
                 <button class="btn" @click="login" v-if="!isLoggedIn">Login</button>
                 <button class="btn" @click="logout" v-if="isLoggedIn">Logout</button>
-                <button class="btn" @click="getPrivate" v-if="isLoggedIn">getPublic</button>
+                <button class="btn" @click="getPublic" v-if="isLoggedIn">getPublic</button>
                 <button class="btn" @click="getPrivate" v-if="isLoggedIn">getPrivate</button>
             </div>
             {{message}}
-
         </div>
     </div>
 </template>

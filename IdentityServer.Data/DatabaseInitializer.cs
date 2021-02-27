@@ -25,7 +25,7 @@ namespace IdentityServer.Data
                 if (!userManager.Users.Any(x => x.UserName == "Empty"))
                 {
                     User user = new User { UserName = "Empty" };
-                    IdentityResult result = await userManager.CreateAsync(user, "test");
+                    IdentityResult result = await userManager.CreateAsync(user, "Test_1");
                     if (result.Succeeded)
                         await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Administrator"));
                 }

@@ -13,24 +13,17 @@ namespace IdentityServer
                 new Client {
                     ClientName = "vuejs_code_client",
                     ClientId = "vuejs_code_client",
-                    AccessTokenType = AccessTokenType.Reference,
-                    RequireConsent = false,
-                    AccessTokenLifetime = 330,// 330 seconds, default 60 minutes
-                    IdentityTokenLifetime = 300,
-
-                    RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.Code,
-                    RequirePkce = true,
+                    RequireClientSecret = false,
+                    RequireConsent = false,
+
 
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44357/login",
-                        "https://localhost:44357/callback",
-                        "https://localhost:44357"
+                        "https://localhost:44357/signin-callback",
                     },
-                    PostLogoutRedirectUris = new List<string>
-                    {
+                    PostLogoutRedirectUris = new List<string> {
                         "https://localhost:44357",
                     },
                     AllowedCorsOrigins = new List<string>{

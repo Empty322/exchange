@@ -6,13 +6,11 @@ const settings = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     authority: STS_DOMAIN,
     client_id: 'vuejs_code_client',
-    redirect_uri: 'https://localhost:44357/callback',
+    redirect_uri: 'https://localhost:44357/signin-callback',
     response_type: 'code',
     scope: 'openid profile email TestAPI',
-    post_logout_redirect_uri: 'https://localhost:44357',
-    filterProtocolClaims: true,
+    post_logout_redirect_uri: 'https://localhost:44357/',
 }
-
 let userManager = new UserManager(settings)
 
 export default {
@@ -36,10 +34,9 @@ export default {
               });
         },
         async signInCallback() {
-            userManager.signinRedirectCallback().then(function (data) {
-                console.log(data);
+            userManager.signinRedirectCallback().then(() => {
                 window.location.href = "/";
-            }).catch(function(e) {
+            }).catch(e => {
                 console.error(e);
             });
         },

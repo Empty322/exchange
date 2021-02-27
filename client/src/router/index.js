@@ -14,10 +14,10 @@ const routes = [
     component: () => import('@/views/Login.vue')
   },
   {
-    path: '/callback',
-    name: 'callback',
+    path: '/signin-callback',
+    name: 'signin-callback',
     meta: { layout: 'empty' },
-    component: () => import('@/views/Callback.vue')
+    component: () => import('@/views/SigninCallback.vue')
   },
   {
     path: '/register',
