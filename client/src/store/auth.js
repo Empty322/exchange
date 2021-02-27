@@ -9,7 +9,7 @@ const settings = {
     redirect_uri: 'https://localhost:44357/signin-callback',
     response_type: 'code',
     scope: 'openid profile email TestAPI',
-    post_logout_redirect_uri: 'https://localhost:44357/',
+    post_logout_redirect_uri: 'https://localhost:44357'
 }
 let userManager = new UserManager(settings)
 

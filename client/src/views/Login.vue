@@ -5,28 +5,17 @@
           <div class="card-content">
               <span class="card-title">Войти</span>
               <div class="input-field">
-                <input
-                    id="userName"
-                    type="text"
-                    v-model.trim="userName"
-                >
+                <input id="userName" type="text" v-model.trim="userName">
                 <label for="userName">Имя пользователя</label>
               </div>
               <div class="input-field">
-                <input
-                    id="password"
-                    type="password"
-                    v-model.trim="password"
-                >
+                <input id="password" type="password" v-model.trim="password">
                 <label for="password">Пароль</label>
               </div>
           </div>
           <div class="card-action">
               <div class="center">
-              <button
-                  class="btn waves-effect waves-light auth-submit"
-                  type="submit"
-              >
+              <button class="btn waves-effect waves-light auth-submit" type="submit">
                   Войти
                   <i class="material-icons right">send</i>
               </button>
