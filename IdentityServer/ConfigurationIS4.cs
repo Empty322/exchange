@@ -17,8 +17,6 @@ namespace IdentityServer
                     RequireClientSecret = false,
                     RequireConsent = false,
 
-
-                    AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44357/signin-callback",
@@ -42,7 +40,10 @@ namespace IdentityServer
         public static IEnumerable<ApiResource> GetApiResources() =>
             new List<ApiResource>
             {
-                new ApiResource("TestAPI")
+                new ApiResource{
+                    Name = "TestAPI",
+                    Scopes = new List<string> {"TestAPI"},
+                }
             };
 
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
@@ -56,7 +57,9 @@ namespace IdentityServer
         public static IEnumerable<ApiScope> GetApiScopes() =>
             new List<ApiScope>
             {
-                new ApiScope("TestAPI")
+                new ApiScope {
+                    Name = "TestAPI",
+                }
             };
     }
 }

@@ -40,25 +40,19 @@ export default {
             await this.$store.dispatch('logout');
         },
         async getPublic() {
-            const authorizationHeader = 'Authorization';
-            await this.$store.dispatch('getAccessToken').then((userToken) => {
-                axios.defaults.headers.common[authorizationHeader] = `Bearer ${userToken}`;
- 
-                axios.get('https://localhost:6001/test/public-data/')
-                    .then((response) => {
-                        console.log(response)
-                        this.message = response.data;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            });
+            await axios.get('https://localhost:6001/test/public-data/')
+                .then((response) => {
+                    console.log(response)
+                    this.message = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         async getPrivate() {
             const authorizationHeader = 'Authorization';
             await this.$store.dispatch('getAccessToken').then((userToken) => {
                 axios.defaults.headers.common[authorizationHeader] = `Bearer ${userToken}`;
- 
                 axios.get('https://localhost:6001/test/private-data/')
                     .then((response) => {
                         console.log(response)
