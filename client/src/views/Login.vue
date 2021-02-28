@@ -47,7 +47,11 @@ export default {
       try {
         await this.$store.dispatch('login', formData)
       } catch (e) {
-        console.log(e)
+        if (e.response){
+            this.$error('Неверные имя пользователя или пароль')
+        }
+        else if (e.request)
+          this.$error('Не получено ответа от сервера')
       }
     }
   }

@@ -43,15 +43,13 @@ namespace IdentityServer.Controllers
             }
 
             var user = await userManager.FindByNameAsync(model.UserName);
-            if (user == null)
+            if (user != null)
             {
-                return NotFound();
-            }
-
-            var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-            if (signInResult.Succeeded)
-            {
-                return new JsonResult(new { RedirectUrl = model.ReturnUrl, IsOk = true });
+                var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                if (signInResult.Succeeded)
+                {
+                    return new JsonResult(new { IsOk = true, RedirectUrl = model.ReturnUrl });
+                }
             }
             return Unauthorized();
         }

@@ -22,22 +22,16 @@ export default {
             return await userManager.signinRedirect();
         },
         async login({ }, formData) {
-            await axios.post('https://localhost:5001/auth/login', formData, { withCredentials: true }).then(async (response) => {
-                if (response.data.isOk) {
-                    window.location.href = response.data.redirectUrl
-                }
-                else
-                  console.log(response)
-              })
-              .catch((error) => {
-                  console.log(error);
-              });
+            // без { withCredentials: true } не пускает
+            await axios.post(`${STS_DOMAIN}/auth/login`, formData, { withCredentials: true })
+                .then(response => {
+                    if (response.data.isOk)
+                        window.location.href = response.data.redirectUrl
+                });
         },
         async signInCallback() {
             userManager.signinRedirectCallback().then(() => {
                 window.location.href = "/";
-            }).catch(e => {
-                console.error(e);
             });
         },
         async logout() {
