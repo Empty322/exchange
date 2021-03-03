@@ -1,4 +1,4 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const fs = require('fs')
 
 module.exports = {
     configureWebpack: {
@@ -8,5 +8,12 @@ module.exports = {
                 maxSize: 250000,
             }
         }
+    },
+    devServer: {
+        https: {
+          key: fs.readFileSync('./certs/localhost.key'),
+          cert: fs.readFileSync('./certs/localhost.crt'),
+        },
+        port: 44357
     }
 }
