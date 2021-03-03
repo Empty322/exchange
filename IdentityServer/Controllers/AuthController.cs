@@ -54,6 +54,31 @@ namespace IdentityServer.Controllers
             return Unauthorized();
         }
 
+        [HttpPost]
+        [EnableCors("user")]
+        [Route("[action]")]
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            User user = new User { 
+                UserName = model.UserName, 
+                Email = model.Email 
+            };
+            IdentityResult result = await userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded) {
+                var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                if (signInResult.Succeeded)
+                {
+                    return Ok();
+                }
+            }
+            return Unauthorized();
+        }
+
         [EnableCors("user")]
         [Route("[action]")]
         public async Task<IActionResult> Logout(string logoutId)
