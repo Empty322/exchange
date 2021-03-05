@@ -14,6 +14,7 @@ module.exports = {
           key: fs.readFileSync('./certs/localhost.key'),
           cert: fs.readFileSync('./certs/localhost.crt'),
         },
-        port: 44357
+        port: 44357,
+        public: 'localhost:44357'
     }
 }
