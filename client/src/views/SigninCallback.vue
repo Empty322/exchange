@@ -3,35 +3,33 @@
     <div class="row card-wrapper">
       <div class="card col s12 m6 offset-m3">
         <div class="center">
-          <Loader/>
-		</div>
-        <div class="center">
-          Идет вход в приложение...
+          <Loader />
         </div>
+        <div class="center">Идет вход в приложение...</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Loader from '@/components/Loader'
+import Loader from "@/components/Loader";
 
 export default {
   mounted() {
-    this.$store.dispatch('signInCallback');
+    this.$store.dispatch("signInCallback");
   },
   components: {
-    Loader
-  }
-}
+    Loader,
+  },
+};
 </script>
 
 <style scoped>
-	.card-wrapper {
-		margin-top: 20vh;
-	}
+.card-wrapper {
+  margin-top: 20vh;
+}
 
-	.card {
-		padding: 3rem;
-	}
+.card {
+  padding: 3rem;
+}
 </style>

@@ -15,20 +15,20 @@ namespace IdentityServer.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IIdentityServerInteractionService interaction;
-        private readonly IWebHostEnvironment environment;
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly IWebHostEnvironment _environment;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public AuthController(IIdentityServerInteractionService interaction, 
             IWebHostEnvironment environment, 
             UserManager<User> userManager, 
             SignInManager<User> signInManager)
         {
-            this.interaction = interaction;
-            this.environment = environment;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _interaction = interaction;
+            _environment = environment;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
@@ -42,10 +42,10 @@ namespace IdentityServer.Controllers
                 return BadRequest();
             }
 
-            var user = await userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(model.UserName);
             if (user != null)
             {
-                var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 if (signInResult.Succeeded)
                 {
                     return new JsonResult(new { IsOk = true, RedirectUrl = model.ReturnUrl });
@@ -68,9 +68,9 @@ namespace IdentityServer.Controllers
                 UserName = model.UserName, 
                 Email = model.Email 
             };
-            IdentityResult result = await userManager.CreateAsync(user, model.Password);
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded) {
-                var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 if (signInResult.Succeeded)
                 {
                     return Ok();
@@ -83,8 +83,8 @@ namespace IdentityServer.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            await signInManager.SignOutAsync();
-            var logoutResult = await interaction.GetLogoutContextAsync(logoutId);
+            await _signInManager.SignOutAsync();
+            var logoutResult = await _interaction.GetLogoutContextAsync(logoutId);
             if (!string.IsNullOrEmpty(logoutResult.PostLogoutRedirectUri)) {
                 return Redirect(logoutResult.PostLogoutRedirectUri);
             }
@@ -96,11 +96,11 @@ namespace IdentityServer.Controllers
         public async Task<IActionResult> Error(string errorId)
         {
             // retrieve error details from identityserver
-            var message = await interaction.GetErrorContextAsync(errorId);
+            var message = await _interaction.GetErrorContextAsync(errorId);
 
             if (message != null)
             {
-                if (!environment.IsDevelopment())
+                if (!_environment.IsDevelopment())
                 {
                     // only show in development
                     message.ErrorDescription = null;

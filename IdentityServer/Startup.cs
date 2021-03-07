@@ -27,7 +27,10 @@ namespace IdentityServer
                 {
                     config.UseSqlServer(Configuration.GetConnectionString("UsersConnection"));
                 })
-                .AddIdentity<User, IdentityRole<Guid>>()
+                .AddIdentity<User, IdentityRole<Guid>>(config =>
+                {
+                    config.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<UsersContext>();
 
             services.AddCors(options =>
@@ -65,7 +68,7 @@ namespace IdentityServer
             }
 
             app.UseRouting();
-            
+
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>
