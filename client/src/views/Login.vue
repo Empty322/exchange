@@ -15,10 +15,7 @@
         </div>
         <div class="card-action">
           <div class="center">
-            <button
-              class="btn waves-effect waves-light auth-submit"
-              type="submit"
-            >
+            <button class="btn waves-effect waves-light auth-submit" type="submit">
               Войти
               <i class="material-icons right">send</i>
             </button>
@@ -36,6 +33,7 @@
 
 <script>
 export default {
+  name: "Login",
   data: () => ({
     userName: "",
     password: "",
@@ -48,7 +46,13 @@ export default {
         returnUrl: this.$route.query.ReturnUrl,
       };
 
-      await this.$store.dispatch("login", formData);
+      try {
+        await this.$store.dispatch("login", formData);
+      }
+      catch (e) {
+        console.log(e);
+        this.$error("Не удалось войти");
+      }
     },
   },
 };

@@ -19,43 +19,27 @@ export default {
       return await userManager.getUser();
     },
     async signinRedirect() {
-      return await userManager.signinRedirect();
+      await userManager.signinRedirect();
     },
-    async login({ commit }, formData) {
-      try {
-        await axios
-          .post(`${STS_DOMAIN}/auth/login`, formData, { withCredentials: true })
-          .then((response) => {
-            if (response.data.isOk)
-              window.location.href = response.data.redirectUrl;
-          });
-      } catch (e) {
-        commit("setError", e);
-      }
+    async login({ }, formData) {
+      const response = await axios.post(`${STS_DOMAIN}/auth/login`, formData, { withCredentials: true })
+      if (response.data.isOk)
+        window.location.href = response.data.redirectUrl;
     },
-    async register({ commit }, formData) {
-      try {
-        await axios
-          .post(`${STS_DOMAIN}/auth/register`, formData, {
-            withCredentials: true,
-          })
-          .then((response) => {
-            if (response) window.location.href = "/";
-          });
-      } catch (e) {
-        commit("setError", e);
-      }
+    async register({ }, formData) {
+      let response = await axios.post(`${STS_DOMAIN}/auth/register`, formData, { withCredentials: true })
+      if (response.data.isOk)
+        window.location.href = "/";
     },
     async signInCallback() {
-      userManager.signinRedirectCallback().then(() => {
-        window.location.href = "/";
-      });
+      await userManager.signinRedirectCallback()
+      window.location.href = "/";
     },
     async logout() {
-      return await userManager.signoutRedirect();
+      await userManager.signoutRedirect();
     },
     async removeUser() {
-      return await userManager.removeUser();
+      await userManager.removeUser();
     },
     async getAccessToken() {
       return await userManager.getUser().then((data) => {
